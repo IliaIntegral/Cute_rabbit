@@ -27,6 +27,5 @@ class UI:
         menu.Button_action(print(22222222222222222222222222))
         pygame.display.update()
 
-    #Biba boba
     #self.player_skin =
     #self.bigger_img = pygame.transform.scale(self.image, (int(self.size[0]*2), int(self.size[1]*2)))
