@@ -4,11 +4,12 @@ import Static_Functions
 import time
 import random
 import Const
+from Buttons import Buttons
 from Size import Size
 from Location import Location
 from Engine import Engine
 from UI import UI
-from Buttons import Buttons
+from Buttons import *
 from Collision_Controller import Collision_Controller
 from Fall_Controller import Fall_Controller
 from Spawn_Controller import Spawn_Controller
@@ -20,7 +21,6 @@ class Game_Controller:
 
         pygame.init()
         Static_Functions.set_start_time()
-
         self.col_cont = Collision_Controller()
         self.fall_cont = Fall_Controller()
         self.spawn_cont = Spawn_Controller()
@@ -28,19 +28,29 @@ class Game_Controller:
         self.ui = UI()
         self.engine = Engine()
 
+
+
         Static_Functions.play_start_song()
         self.ui.set_caption()
 
-        self.menu = Buttons(Location(50, 50), Size(50, 50), "pause.png", [0, 0])
+        self.menu = Buttons(Location(50, 50), Size(100, 100), "pause.png", [0, 0])
         self.menu.picture = pygame.transform.scale(self.menu.picture, (100, 100))
 
+        self.start_from_paused = Buttons(Location(300, 300), Size(100, 100), "start_from_menu.png", [0, 0])
+        self.start_from_paused.picture = pygame.transform.scale(self.start_from_paused.picture, (100, 100))
 
+        self.start_playing = Buttons(Location(1000, 1000), Size(100, 100), "start_playing.png", [0, 0])
+        self.start_playing.picture = pygame.transform.scale(self.start_playing.picture, (100, 100))
 
-
+        keyboard_paused = [False]
         game_over = [False]
+        game_menu = [True]
         clock = pygame.time.Clock()
-        while not game_over[0]:
-
+        while game_menu[0]:
+            self.ui.dis.fill((247, 247, 247))
+            self.ui.draw(self.start_playing.loc, self.start_playing.size, self.start_playing.picture)
+            self.start_playing.button_action_start_from_main_menu(game_menu)
+        while not game_over[0] and not game_menu[0]:
             events = pygame.event.get()
             self.keyboard_imput_cont.get_events(events, self.engine, game_over, self.engine.game_field.player)
 
@@ -61,10 +71,14 @@ class Game_Controller:
 
             self.col_cont.check_collision(self.engine.game_field.fal_objects, self.engine.game_field.player)
 
-            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu)
-
-
+            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu, self.start_from_paused, keyboard_paused)
+            self.menu.button_action_pause(keyboard_paused)
+            while keyboard_paused[0] == True:
+                self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu,  self.start_from_paused, keyboard_paused)
+                self.start_from_paused.button_action_start_from_pause(keyboard_paused)
+            self.start_playing.button_action_go_to_main_menu(game_menu)
             clock.tick(30)
+
 
         print(self.engine.game_field.player.score)
         pygame.quit()

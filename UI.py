@@ -1,7 +1,3 @@
-import pygame
-import Const
-from Location import Location
-from Size import Size
 from Buttons import *
 
 class UI:
@@ -19,12 +15,22 @@ class UI:
     def set_caption(self):
         pygame.display.set_caption('Cute rabbit game by II')
 
-    def cycle(self, fal_obj, player, menu):
+    def cycle(self, fal_obj, player, menu, start_from_paused, keyboard_paused):
         for object in fal_obj:
             self.draw(object.loc, object.size, object.picture)
         self.draw(player.loc, player.size, player.picture)
         self.draw(menu.loc, menu.size, menu.picture)
-        menu.Button_action(print(22222222222222222222222222))
+        if keyboard_paused[0]:
+            self.draw(start_from_paused.loc, start_from_paused.size, start_from_paused.picture)
+
+
+        #while paused:
+         #   start = Buttons(Location(300, 200), Size(100, 100), "svet.png", 0)
+          #  start.picture = pygame.transform.scale(start.picture, (100, 100))
+           # self.dis.blit(start.picture, start.loc, start.size)
+            #click = pygame.mouse.get_pressed()
+            #if click[0] == 1:
+              #  paused = False
         pygame.display.update()
 
     #self.player_skin =

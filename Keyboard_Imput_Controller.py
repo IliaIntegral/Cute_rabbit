@@ -1,3 +1,5 @@
+import pygame
+
 from Game_Controller import *
 from Player import Player
 import Static_Functions
@@ -18,14 +20,13 @@ class Keyboard_Imput_Controller:
         elif event.key == pygame.K_RIGHT:
             engine.move(player, player.speed[0], player.speed[1])
         if event.key == pygame.K_q:
-                    game_over[0] = True
+            game_over[0] = True
 
     def check_pressed(self, engine, player):
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
             engine.move(player, player.speed[0], player.speed[1])
         if pygame.key.get_pressed()[pygame.K_LEFT]:
             engine.move(player, -1 * player.speed[0], player.speed[1])
-
 
             #if event.type == pygame.KEYUP:
             #    Static_Functions.key_up(event, engine)
