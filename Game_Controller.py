@@ -17,6 +17,8 @@ from Keyboard_Imput_Controller import Keyboard_Imput_Controller
 
 
 class Game_Controller:
+
+
     def __init__(self):
 
         pygame.init()
@@ -30,7 +32,7 @@ class Game_Controller:
 
 
 
-        Static_Functions.play_start_song()
+       # Static_Functions.play_start_song()
         self.ui.set_caption()
 
         self.menu = Buttons(Location(50, 50), Size(100, 100), "pause.png", [0, 0])
@@ -44,13 +46,15 @@ class Game_Controller:
 
         keyboard_paused = [False]
         game_over = [False]
-        game_menu = [True]
+        game_menu = [False]
         clock = pygame.time.Clock()
-        while game_menu[0]:
-            self.ui.dis.fill((247, 247, 247))
-            self.ui.draw(self.start_playing.loc, self.start_playing.size, self.start_playing.picture)
-            self.start_playing.button_action_start_from_main_menu(game_menu)
-        while not game_over[0] and not game_menu[0]:
+
+
+
+        while not game_over[0]:
+            if game_menu[0]:
+                print('1')
+                self.main_menu(game_menu)
             events = pygame.event.get()
             self.keyboard_imput_cont.get_events(events, self.engine, game_over, self.engine.game_field.player)
 
@@ -73,13 +77,23 @@ class Game_Controller:
 
             self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu, self.start_from_paused, keyboard_paused)
             self.menu.button_action_pause(keyboard_paused)
-            while keyboard_paused[0] == True:
-                self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu,  self.start_from_paused, keyboard_paused)
-                self.start_from_paused.button_action_start_from_pause(keyboard_paused)
-            self.start_playing.button_action_go_to_main_menu(game_menu)
+            if keyboard_paused:
+                self.paused_in_game(keyboard_paused, game_menu)
             clock.tick(30)
 
 
         print(self.engine.game_field.player.score)
         pygame.quit()
         quit()
+
+    def main_menu(self, game_menu):
+        while game_menu[0]:
+            self.ui.dis.fill((247, 247, 247))
+            self.ui.cycle_main_menu(self.start_playing)
+            #self.ui.draw(self.start_playing.loc, self.start_playing.size, self.start_playing.picture)
+            self.start_playing.button_action_start_from_main_menu(game_menu)
+    def paused_in_game(self, keyboard_paused, game_menu):
+        while keyboard_paused[0] == True:
+            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu,  self.start_from_paused, keyboard_paused)
+            self.start_from_paused.button_action_start_from_pause(keyboard_paused)
+            self.start_playing.button_action_go_to_main_menu(game_menu)

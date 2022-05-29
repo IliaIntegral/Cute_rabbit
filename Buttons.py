@@ -24,10 +24,9 @@ class Buttons(Object):
                 game_menu[0] = True
     def button_action_start_from_pause(self, keyboard_paused):
         click = pygame.mouse.get_pressed()
-        mouse = pygame.mouse.get_pos()
-        print(mouse[0])
-        if self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
-            if click[0] == 1:
+        if click[0]:
+            mouse = pygame.mouse.get_pos()
+            if (self.loc.x < mouse[0]) and (mouse[0] < self.loc.x + self.size.width) and (self.loc.y < mouse[1]) and (mouse[1] < self.loc.y + self.size.height):
                 keyboard_paused[0] = False
     def button_action_pause(self, keyboard_paused):
         click = pygame.mouse.get_pressed()

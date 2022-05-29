@@ -20,10 +20,14 @@ class UI:
             self.draw(object.loc, object.size, object.picture)
         self.draw(player.loc, player.size, player.picture)
         self.draw(menu.loc, menu.size, menu.picture)
+        pygame.display.update()
+
         if keyboard_paused[0]:
             self.draw(start_from_paused.loc, start_from_paused.size, start_from_paused.picture)
 
-
+    def cycle_main_menu(self, start_playing):
+        self.draw(start_playing.loc, start_playing.size, start_playing.picture)
+        pygame.display.update()
         #while paused:
          #   start = Buttons(Location(300, 200), Size(100, 100), "svet.png", 0)
           #  start.picture = pygame.transform.scale(start.picture, (100, 100))
@@ -31,7 +35,7 @@ class UI:
             #click = pygame.mouse.get_pressed()
             #if click[0] == 1:
               #  paused = False
-        pygame.display.update()
+
 
     #self.player_skin =
     #self.bigger_img = pygame.transform.scale(self.image, (int(self.size[0]*2), int(self.size[1]*2)))
