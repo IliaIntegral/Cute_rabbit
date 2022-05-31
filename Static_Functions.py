@@ -14,7 +14,3 @@ def play_start_song():
 
 def set_start_time():
     Const.start_time = int(time.time())
-
-#def key_up(event, engine):
-#    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-#        engine.player_movement_ratio = (0, 0)

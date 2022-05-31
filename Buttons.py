@@ -16,12 +16,13 @@ class Buttons(Object):
         mouse = pygame.mouse.get_pos()
         if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
             game_menu[0] = False
-    def button_action_go_to_main_menu(self, game_menu):
+    def button_action_go_to_main_menu(self, game_menu, paused):
         click = pygame.mouse.get_pressed()
         mouse = pygame.mouse.get_pos()
         if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
             if click[0] == 1:
                 game_menu[0] = True
+                paused[0] = False
     def button_action_start_from_pause(self, keyboard_paused):
         click = pygame.mouse.get_pressed()
         if click[0]:
@@ -33,5 +34,9 @@ class Buttons(Object):
         mouse = pygame.mouse.get_pos()
         if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
             keyboard_paused[0] = True
-            #while self.paused:
-                #pass
+    def button_action_exit_from_main_menu(self, game_over):
+        click = pygame.mouse.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
+            game_over[0] = True
+            #quit()

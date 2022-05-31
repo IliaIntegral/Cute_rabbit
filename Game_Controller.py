@@ -32,17 +32,24 @@ class Game_Controller:
 
 
 
-       # Static_Functions.play_start_song()
+        # Static_Functions.play_start_song()
         self.ui.set_caption()
 
-        self.menu = Buttons(Location(50, 50), Size(100, 100), "pause.png", [0, 0])
-        self.menu.picture = pygame.transform.scale(self.menu.picture, (100, 100))
+        self.pause = Buttons(Location(50, 50), Size(100, 100), "pause.png", [0, 0])
+        self.pause.picture = pygame.transform.scale(self.pause.picture, (100, 100))
 
-        self.start_from_paused = Buttons(Location(300, 300), Size(100, 100), "start_from_menu.png", [0, 0])
+        self.start_from_paused = Buttons(Location(300, 300), Size(100, 100), "start_from_paused.png", [0, 0])
         self.start_from_paused.picture = pygame.transform.scale(self.start_from_paused.picture, (100, 100))
 
-        self.start_playing = Buttons(Location(1000, 1000), Size(100, 100), "start_playing.png", [0, 0])
-        self.start_playing.picture = pygame.transform.scale(self.start_playing.picture, (100, 100))
+        self.start_playing_from_main_menu = Buttons(Location(500, 300), Size(641, 389), "start_playing.png", [0, 0])
+        self.start_playing_from_main_menu.picture = pygame.transform.scale(self.start_playing_from_main_menu.picture, (641, 389))
+
+        self.go_to_main_menu = Buttons(Location(300, 500), Size(200, 200), "go_to_main_menu_from_paused.png", [0, 0])
+        self.go_to_main_menu.picture = pygame.transform.scale(self.go_to_main_menu.picture, (200, 200))
+
+        self.exit_from_main_menu = Buttons(Location(300, 100), Size(200, 200), "exit_from_main_menu.png", [0, 0])
+        self.exit_from_main_menu.picture = pygame.transform.scale(self.exit_from_main_menu.picture, (200, 200))
+
 
         keyboard_paused = [False]
         game_over = [False]
@@ -53,8 +60,7 @@ class Game_Controller:
 
         while not game_over[0]:
             if game_menu[0]:
-                print('1')
-                self.main_menu(game_menu)
+                self.main_menu(game_menu, game_over)
             events = pygame.event.get()
             self.keyboard_imput_cont.get_events(events, self.engine, game_over, self.engine.game_field.player)
 
@@ -75,9 +81,9 @@ class Game_Controller:
 
             self.col_cont.check_collision(self.engine.game_field.fal_objects, self.engine.game_field.player)
 
-            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu, self.start_from_paused, keyboard_paused)
-            self.menu.button_action_pause(keyboard_paused)
-            if keyboard_paused:
+            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.pause, self.start_from_paused, keyboard_paused)
+            self.pause.button_action_pause(keyboard_paused)
+            if keyboard_paused[0]:
                 self.paused_in_game(keyboard_paused, game_menu)
             clock.tick(30)
 
@@ -86,14 +92,24 @@ class Game_Controller:
         pygame.quit()
         quit()
 
-    def main_menu(self, game_menu):
+    def main_menu(self, game_menu, game_over):
+        for object in self.engine.game_field.fal_objects:
+                self.engine.game_field.player.score = 0
+                self.engine.game_field.fal_objects.remove(object)
         while game_menu[0]:
-            self.ui.dis.fill((247, 247, 247))
-            self.ui.cycle_main_menu(self.start_playing)
-            #self.ui.draw(self.start_playing.loc, self.start_playing.size, self.start_playing.picture)
-            self.start_playing.button_action_start_from_main_menu(game_menu)
+            self.ui.dis.fill((0, 0, 255))
+            self.ui.cycle_main_menu(self.start_playing_from_main_menu, self.exit_from_main_menu)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pygame.display.update()
+            self.start_playing_from_main_menu.button_action_start_from_main_menu(game_menu)
+            self.exit_from_main_menu.button_action_exit_from_main_menu(game_over)
     def paused_in_game(self, keyboard_paused, game_menu):
         while keyboard_paused[0] == True:
-            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.menu,  self.start_from_paused, keyboard_paused)
+            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.pause,  self.start_from_paused, keyboard_paused)
             self.start_from_paused.button_action_start_from_pause(keyboard_paused)
-            self.start_playing.button_action_go_to_main_menu(game_menu)
+            self.ui.cycle_go_to_main_menu(self.go_to_main_menu)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pygame.display.update()
+            self.go_to_main_menu.button_action_go_to_main_menu(game_menu, keyboard_paused)
