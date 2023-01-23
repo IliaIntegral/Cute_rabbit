@@ -21,10 +21,8 @@ class UI:
         self.draw(player.loc, player.picture)
         self.draw(menu.loc, menu.picture)
         pygame.display.update()
-
         if keyboard_paused[0]:
             self.draw(start_from_paused.loc, start_from_paused.picture)
-
     def cycle_main_menu(self, start_playing, exit_from_main_menu):
         self.draw(start_playing.loc, start_playing.picture)
         self.draw(exit_from_main_menu.loc, exit_from_main_menu.picture)
