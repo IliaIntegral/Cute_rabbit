@@ -3,7 +3,7 @@ import Songs
 import Static_Functions
 import time
 import random
-import Const
+from Const import *
 from Buttons import Buttons
 from Size import Size
 from Location import Location
@@ -51,18 +51,16 @@ class Game_Controller:
         self.exit_from_main_menu.picture = pygame.transform.scale(self.exit_from_main_menu.picture, (200, 200))
 
 
-        keyboard_paused = [False]
-        game_over = [False]
-        game_menu = [False]
+
         clock = pygame.time.Clock()
 
 
 
-        while not game_over[0]:
-            if game_menu[0]:
-                self.main_menu(game_menu, game_over)
+        while not Const.game_over[0]:
+            if Const.game_menu[0]:
+                self.main_menu(Const.game_menu, Const.game_over)
             events = pygame.event.get()
-            self.keyboard_imput_cont.get_events(events, self.engine, game_over, self.engine.game_field.player)
+            self.keyboard_imput_cont.get_events(events, self.engine, Const.game_over, self.engine.game_field.player)
 
             self.ui.dis.fill((247, 247, 247))
 
@@ -77,14 +75,14 @@ class Game_Controller:
 
             self.fall_cont.set_fall_speed(self.engine.game_field.fal_objects)
             self.fall_cont.move_fall_objects(self.engine.game_field.fal_objects, self.engine)
-            self.fall_cont.check_fall(self.engine.game_field.fal_objects, self.engine.game_field.player, game_over)
+            self.fall_cont.check_fall(self.engine.game_field.fal_objects, self.engine.game_field.player, Const.game_over)
 
             self.col_cont.check_collision(self.engine.game_field.fal_objects, self.engine.game_field.player)
 
-            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.pause, self.start_from_paused, keyboard_paused)
-            self.pause.button_action_pause(keyboard_paused)
-            if keyboard_paused[0]:
-                self.paused_in_game(keyboard_paused, game_menu)
+            self.ui.cycle(self.engine.game_field.fal_objects, self.engine.game_field.player, self.pause, self.start_from_paused, Const.keyboard_paused)
+            self.pause.button_action_pause(Const.keyboard_paused)
+            if Const.keyboard_paused[0]:
+                self.paused_in_game(Const.keyboard_paused, Const.game_menu)
             clock.tick(30)
 
 

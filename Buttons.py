@@ -10,7 +10,7 @@ class time_variable:
 class Buttons(Object):
     def __init__(self, loc: Location, size: Size, picture, speed):
         super().__init__(loc, size, picture, speed)
-        self.picture = pygame.transform.scale(self.picture, (20, 20))
+        self.picture = pygame.transform.scale(self.picture, (200, 200))
     def button_action_start_from_main_menu(self, game_menu):
         click = pygame.mouse.get_pressed()
         mouse = pygame.mouse.get_pos()
@@ -34,9 +34,9 @@ class Buttons(Object):
         mouse = pygame.mouse.get_pos()
         if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
             keyboard_paused[0] = True
-    def button_action_exit_from_main_menu(self, game_over):
+    def button_action_exit_from_main_menu(self):
         click = pygame.mouse.get_pressed()
         mouse = pygame.mouse.get_pos()
         if click[0] == 1 and self.loc.x < mouse[0] < self.loc.x + self.size.width and self.loc.y < mouse[1] < self.loc.y + self.size.height:
-            game_over[0] = True
+            Const.game_over[0] = True
             #quit()
